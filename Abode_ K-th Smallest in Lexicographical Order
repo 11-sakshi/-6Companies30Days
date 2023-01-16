@@ -1,0 +1,25 @@
+class Solution {
+    public int findKthNumber(int n, int k) {
+        long rank = 1;
+        long cur = 1;
+        while (rank < k) {
+            long cnt = getCnt(cur, n);
+            if (rank + cnt <= k) {
+                ++cur;
+                rank += cnt;
+            } else {
+                cur *= 10;
+                ++rank;
+            }
+        }
+        return (int) cur;
+    }
+
+    private long getCnt(long prefix, long n) {
+        long cnt = 0;
+        for (long cur = prefix, next = cur + 1; cur <= n; cur *= 10, next *= 10) {
+            cnt += Math.min(next, n + 1) - cur;
+        }
+        return cnt;
+    }
+}
